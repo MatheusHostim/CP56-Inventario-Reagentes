@@ -1,3 +1,9 @@
 package com.sistemaempresa.invreagentes.dto;
 
-public record FornecedorDTO(Long id, String nome, String contato) {}
+import jakarta.validation.constraints.NotBlank;
+
+public record FornecedorDTO(
+        Long id,
+        @NotBlank(message = "nome do fornecedor é obrigatório") String nome,
+        String contato
+) {}
