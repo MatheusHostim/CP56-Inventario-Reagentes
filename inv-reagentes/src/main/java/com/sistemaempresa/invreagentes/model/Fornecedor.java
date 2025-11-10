@@ -1,18 +1,22 @@
 package com.sistemaempresa.invreagentes.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Fornecedor {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String nome;
     private String contato;
 
     @OneToMany(mappedBy = "fornecedor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Reagente> reagentes = new ArrayList<>();
 
     // getters/setters

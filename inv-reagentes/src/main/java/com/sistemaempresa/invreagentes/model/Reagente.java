@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 @Entity
 public class Reagente {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
