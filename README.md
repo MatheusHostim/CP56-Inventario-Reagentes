@@ -37,13 +37,7 @@ Exemplo de JSON de entrada:
 }
 ```
 
-Atualizar reagente
 
-PUT /reagentes/{id} → Atualiza os dados de um reagente existente.
-
-Deletar reagente
-
-DELETE /reagentes/{id} → Remove um reagente do sistema.
 
 💻 **Tecnologias utilizadas**
 * Java 17
@@ -57,6 +51,53 @@ DELETE /reagentes/{id} → Remove um reagente do sistema.
 
 O projeto está organizado em pacotes para manter tudo limpo e fácil de manter. O pacote model contém as entidades Reagente e Fornecedor, o dto contém os objetos de transferência de dados, e o mapper faz a conversão entre DTOs e entidades. O repository é responsável pelo
 acesso ao banco de dados, o service contém a lógica de negócio e o controller define os endpoints da API REST.
+
+---
+
+🚀 **Como Executar e Testar**
+
+1. **Build e execução do projeto**  
+   - No Git Bash ou terminal da sua preferência, rode:
+     ```bash
+     ./mvnw -U clean package
+     ./mvnw spring-boot:run
+     ```
+   - A aplicação estará disponível em `http://localhost:8080`.
+
+2. **Acessando o H2 Console**  
+   Esse é um site que o Spring Boot expõe automaticamente para o banco em memória.  
+   - Abra o navegador e vá para:  
+     👉 `http://localhost:8080/h2-console`
+   - Preencha o formulário assim:
+     - JDBC URL: `jdbc:h2:mem:reagentesdb`
+     - User Name: `sa`
+     - Password: (deixe vazio mesmo)
+   - Clique em **Connect** ✅  
+   - Você vai ver as tabelas:
+     - `FORNECEDOR`
+     - `REAGENTE`
+   - E vai poder executar SQL, por exemplo:
+     ```sql
+     SELECT * FROM REAGENTE;
+     ```
+
+3. **Testando a API pelo PowerShell**  
+   - Abra o PowerShell e rode o seguinte comando para criar um reagente:
+     ```powershell
+     $body = @{
+       nome = "Ácido Acético"
+       quantidade = 10
+       lote = "L123"
+       validade = "2026-12-31"
+       fornecedor = @{ nome = "LabFornece Ltda"; contato = "contato@lab.com" }
+     } | ConvertTo-Json -Depth 3
+
+     $bytes = [System.Text.Encoding]::UTF8.GetBytes($body)
+
+     Invoke-RestMethod -Uri 'http://localhost:8080/api/reagentes' -Method Post -Body $bytes -ContentType 'application/json'
+     ```
+   - Isso vai criar o registro no banco em memória e vai estar permitindo testar os endpoints.
+
 
 📊 **Concluindo**
 
